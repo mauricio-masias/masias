@@ -9,6 +9,7 @@ export default defineConfig({
         laravel({
             input: 'resources/js/app.ts',
             ssr: 'resources/js/ssr.ts',
+            publicDirectory: 'public_html',
             refresh: true,
         }),
         tailwindcss(),

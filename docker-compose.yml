@@ -27,8 +27,8 @@ services:
     masiascms:
         build: ./docker
         container_name: MASIAS_CMS
-        working_dir: /var/www/public
-        command: sh -c "cd /var/www && [ ! -d vendor ] && composer install --no-interaction --dev;  php -S 0.0.0.0:8080 -t ./public "
+        working_dir: /var/www/public_html
+        command: sh -c "cd /var/www && [ ! -d vendor ] && composer install --no-interaction --dev;  php -S 0.0.0.0:8080 -t ./public_html "
         stdin_open: true 
         tty: true
         environment:

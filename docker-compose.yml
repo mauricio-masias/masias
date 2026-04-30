@@ -1,0 +1,52 @@
+
+volumes:
+    logs:
+        driver: local
+
+services:
+    masiasdb:
+        container_name: MASIAS_DB
+        image: mariadb
+        ports:
+            - 4306:3306
+        restart: always
+        environment:
+            MYSQL_DATABASE: masias_db
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_PASSWORD: password
+        volumes:
+            - ./docker/data:/var/lib/mysql
+        networks:
+            - app-network
+        healthcheck:
+            test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "--password=password"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
+
+    masiascms:
+        build: ./docker
+        container_name: MASIAS_CMS
+        working_dir: /var/www/public
+        command: sh -c "cd /var/www && [ ! -d vendor ] && composer install --no-interaction --dev;  php -S 0.0.0.0:8080 -t ./public "
+        stdin_open: true 
+        tty: true
+        environment:
+            docker: "true"
+        ports:
+            - 8080:8080
+        volumes:
+            - .:/var/www
+            - logs:/var/www/logs
+        networks:
+            - app-network
+        depends_on:
+            masiasdb:
+              condition: service_healthy
+        healthcheck:
+            disable: true                   
+                         
+
+networks:
+    app-network:
+        driver: bridge

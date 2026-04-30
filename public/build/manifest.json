@@ -1,0 +1,89 @@
+{
+  "_AppLayout-BGY77N9v.js": {
+    "file": "assets/AppLayout-BGY77N9v.js",
+    "name": "AppLayout",
+    "imports": [
+      "resources/js/app.ts"
+    ]
+  },
+  "_useReveal-C4afa2yN.js": {
+    "file": "assets/useReveal-C4afa2yN.js",
+    "name": "useReveal",
+    "imports": [
+      "resources/js/app.ts"
+    ]
+  },
+  "resources/js/Pages/Contact.vue": {
+    "file": "assets/Contact-WHZEonfz.js",
+    "name": "Contact",
+    "src": "resources/js/Pages/Contact.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.ts",
+      "_AppLayout-BGY77N9v.js",
+      "_useReveal-C4afa2yN.js"
+    ]
+  },
+  "resources/js/Pages/ErrorPage.vue": {
+    "file": "assets/ErrorPage-eXy3rrEM.js",
+    "name": "ErrorPage",
+    "src": "resources/js/Pages/ErrorPage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.ts",
+      "_AppLayout-BGY77N9v.js"
+    ]
+  },
+  "resources/js/Pages/Home.vue": {
+    "file": "assets/Home-Cqdz6WSM.js",
+    "name": "Home",
+    "src": "resources/js/Pages/Home.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.ts",
+      "_AppLayout-BGY77N9v.js",
+      "_useReveal-C4afa2yN.js"
+    ]
+  },
+  "resources/js/Pages/Privacy.vue": {
+    "file": "assets/Privacy-BHPLoOPr.js",
+    "name": "Privacy",
+    "src": "resources/js/Pages/Privacy.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.ts",
+      "_AppLayout-BGY77N9v.js",
+      "_useReveal-C4afa2yN.js"
+    ]
+  },
+  "resources/js/Pages/Works.vue": {
+    "file": "assets/Works-eX1w84oI.js",
+    "name": "Works",
+    "src": "resources/js/Pages/Works.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.ts",
+      "_AppLayout-BGY77N9v.js",
+      "_useReveal-C4afa2yN.js"
+    ],
+    "css": [
+      "assets/Works-CU8cfnMk.css"
+    ]
+  },
+  "resources/js/app.ts": {
+    "file": "assets/app-DOHlWC9a.js",
+    "name": "app",
+    "src": "resources/js/app.ts",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/Pages/Contact.vue",
+      "resources/js/Pages/ErrorPage.vue",
+      "resources/js/Pages/Home.vue",
+      "resources/js/Pages/Privacy.vue",
+      "resources/js/Pages/Works.vue"
+    ],
+    "css": [
+      "assets/app-B3o7dVfU.css"
+    ]
+  }
+}

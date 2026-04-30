@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100" viewBox="0 0 300 100">
+  <rect width="300" height="100" fill="none"/>
+  <!-- M mark -->
+  <g transform="translate(20, 15)">
+    <path d="M0 70 L0 0 L30 50 L60 0 L60 70" stroke="#64ffda" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- MASIAS wordmark -->
+  <text x="100" y="58" font-family="'Space Grotesk', 'Inter', sans-serif" font-weight="700" font-size="38" fill="#ffffff" letter-spacing="-1">MASIAS</text>
+  <!-- dot accent -->
+  <circle cx="285" cy="45" r="5" fill="#64ffda"/>
+</svg>

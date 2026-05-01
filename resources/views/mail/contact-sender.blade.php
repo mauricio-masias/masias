@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" style="background-color:#0a0a0a;">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="x-apple-disable-message-reformatting">
+    <meta name="color-scheme" content="dark">
+    <meta name="supported-color-schemes" content="dark">
     <title>Thanks for reaching out, {{ $senderName }}</title>
     <!--[if mso]>
     <noscript><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
     <![endif]-->
     <style>
+        :root { color-scheme: dark; }
         * { -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
         body { margin: 0 !important; padding: 0 !important; background-color: #0a0a0a; }
         table { border-spacing: 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
@@ -29,7 +32,7 @@
     <div style="display:none;max-height:0;overflow:hidden;font-size:1px;color:#0a0a0a;">Thanks for reaching out — I'll get back to you shortly.</div>
     <div style="display:none;max-height:0;overflow:hidden;">&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;</div>
 
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#0a0a0a;">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" bgcolor="#0a0a0a" style="background-color:#0a0a0a;">
         <tr>
             <td align="center" style="padding:40px 20px;">
 
@@ -37,7 +40,7 @@
 
                     {{-- ─── HEADER ─── --}}
                     <tr>
-                        <td style="background-color:#111111;border:1px solid #1f1f1f;border-bottom:none;padding:28px 40px;">
+                        <td bgcolor="#111111" style="background-color:#111111;border:1px solid #1f1f1f;border-bottom:none;padding:28px 40px;">
                             <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                 <tr>
                                     <td>
@@ -68,18 +71,18 @@
 
                     {{-- ─── HERO ─── --}}
                     <tr>
-                        <td class="pad" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:48px 40px 40px;">
-                            <p style="margin:0 0 8px;font-family:'Courier New',Courier,monospace;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#64ffda;">Message received</p>
-                            <h1 class="hero-title" style="margin:16px 0 16px 0;font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:700;color:#ffffff;line-height:1.0;">Thank you, {{ $senderName }}.</h1>
+                        <td class="pad" bgcolor="#111111" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:48px 40px 40px;">
+                            <p style="margin:0 0 8px;font-family:'Courier New',Courier,monospace;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#64ffda;">Message received</p>
+                            <h1 class="hero-title" style="margin:16px 0 16px 0;font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:700;color:#ffffff;line-height:1.0;">Thank you, {{ $senderName }}.</h1>
                             <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.7;color:#888888;">I've received your message and will get back to you as soon as possible, usually within 1–2 business days.</p>
                             <p style="margin:20px 0 0 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.7;color:#888888;">— Mauricio</p>
-                        
+
                         </td>
                     </tr>
 
                     {{-- Divider --}}
                     <tr>
-                        <td style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:0 40px;">
+                        <td bgcolor="#111111" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:0 40px;">
                             <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                 <tr><td style="border-top:1px solid #1f1f1f;font-size:0;line-height:0;">&nbsp;</td></tr>
                             </table>
@@ -88,8 +91,8 @@
 
                     {{-- ─── ABOUT ─── --}}
                     <tr>
-                        <td class="pad" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:36px 40px;">
-                            <p style="margin:0 0 14px;font-family:'Courier New',Courier,monospace;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#64ffda;">About</p>
+                        <td class="pad" bgcolor="#111111" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:36px 40px;">
+                            <p style="margin:0 0 14px;font-family:'Courier New',Courier,monospace;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#64ffda;">About</p>
                             <p style="margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.8;color:#aaaaaa;">I'm a Full-Stack Developer with a passion for building clean, performant, and maintainable web applications. I work across the entire stack — from database design and Laravel APIs to Vue and React frontends.</p>
                             <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.8;color:#aaaaaa;">I thrive in Agile environments, value clear communication, and believe that great software is built collaboratively. Whether it's a greenfield product or a legacy codebase that needs love, I bring the same care and rigour to every project.</p>
                         </td>
@@ -97,7 +100,7 @@
 
                     {{-- Divider --}}
                     <tr>
-                        <td style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:0 40px;">
+                        <td bgcolor="#111111" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:0 40px;">
                             <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                 <tr><td style="border-top:1px solid #1f1f1f;font-size:0;line-height:0;">&nbsp;</td></tr>
                             </table>
@@ -107,8 +110,8 @@
                     {{-- ─── TECH STACK ─── --}}
                     @if($skills && count($skills) > 0)
                     <tr>
-                        <td class="pad" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:36px 40px;">
-                            <p style="margin:0 0 18px;font-family:'Courier New',Courier,monospace;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#64ffda;">What I work with</p>
+                        <td class="pad" bgcolor="#111111" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:36px 40px;">
+                            <p style="margin:0 0 18px;font-family:'Courier New',Courier,monospace;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#64ffda;">What I work with</p>
                             <p style="margin:0;font-family:'Courier New',Courier,monospace;font-size:12px;line-height:2.2;color:#64ffda;">
                                 @foreach($skills as $skill)
                                     <span style="display:inline-block;padding:3px 10px;margin:0 4px 4px 0;background-color:#0d0d0d;border:1px solid #2a2a2a;color:#64ffda;font-family:'Courier New',Courier,monospace;font-size:11px;">{{ $skill }}</span>
@@ -119,7 +122,7 @@
 
                     {{-- Divider --}}
                     <tr>
-                        <td style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:0 40px;">
+                        <td bgcolor="#111111" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:0 40px;">
                             <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                 <tr><td style="border-top:1px solid #1f1f1f;font-size:0;line-height:0;">&nbsp;</td></tr>
                             </table>
@@ -130,8 +133,8 @@
                     {{-- ─── FEATURED WORKS ─── --}}
                     @if($featuredWorks->isNotEmpty())
                     <tr>
-                        <td class="pad" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:36px 40px;">
-                            <p style="margin:0 0 24px;font-family:'Courier New',Courier,monospace;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#64ffda;">Featured work</p>
+                        <td class="pad" bgcolor="#111111" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:36px 40px;">
+                            <p style="margin:0 0 24px;font-family:'Courier New',Courier,monospace;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#64ffda;">Featured work</p>
 
                             <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                 @foreach($featuredWorks as $work)
@@ -140,7 +143,7 @@
                                         <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
                                                 {{-- Left accent bar --}}
-                                                <td width="3" style="background-color:#64ffda;font-size:0;line-height:0;">&nbsp;</td>
+                                                <td width="3" bgcolor="#64ffda" style="background-color:#64ffda;font-size:0;line-height:0;">&nbsp;</td>
                                                 <td width="20"></td>
                                                 <td style="padding:16px 0;">
                                                     <p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:700;color:#ffffff;">{{ $work->title }}</p>
@@ -167,7 +170,7 @@
 
                     {{-- Divider --}}
                     <tr>
-                        <td style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:0 40px;">
+                        <td bgcolor="#111111" style="background-color:#111111;border-left:1px solid #1f1f1f;border-right:1px solid #1f1f1f;padding:0 40px;">
                             <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                 <tr><td style="border-top:1px solid #1f1f1f;font-size:0;line-height:0;">&nbsp;</td></tr>
                             </table>
@@ -177,7 +180,7 @@
 
                     {{-- ─── FOOTER ─── --}}
                     <tr>
-                        <td style="background-color:#0d0d0d;border:1px solid #1f1f1f;border-top:none;padding:28px 40px;">
+                        <td bgcolor="#0d0d0d" style="background-color:#0d0d0d;border:1px solid #1f1f1f;border-top:none;padding:28px 40px;">
                             <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                 <tr>
                                     <td>

@@ -192,7 +192,7 @@ onUnmounted(() => clearTimeout(typeTimeout));
                         <span
                             v-for="skill in settings.skills"
                             :key="skill"
-                            class="group relative border border-[#1f1f1f] rounded-lg px-4 py-2.5 text-sm font-mono text-[#888] hover:border-[#64ffda]/50 hover:text-white transition-all duration-200 cursor-default"
+                            class="group relative border border-[#777] rounded-lg px-4 py-2.5 text-sm font-mono text-[#888] hover:border-[#64ffda]/50 hover:text-white transition-all duration-200 cursor-default"
                         >
                             <span class="absolute inset-0 rounded-lg bg-[#64ffda]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                             <span class="relative">{{ skill }}</span>

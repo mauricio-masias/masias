@@ -74,12 +74,12 @@ onUnmounted(() => {
 
         <!-- Tag filter -->
         <section v-if="allTags.length" class="px-6 pb-12">
-            <div class="max-w-6xl mx-auto flex flex-wrap gap-3">
+            <div class="max-w-6xl mx-auto tag-filter sm:flex sm:flex-wrap gap-3">
                 <button
                     class="font-mono text-sm px-4 py-2 rounded-full border transition-all duration-200"
                     :class="selectedTag === null
                         ? 'border-[#64ffda] text-[#64ffda] bg-[#64ffda]/10'
-                        : 'border-[#1f1f1f] text-[#666] hover:border-[#64ffda]/50 hover:text-white'"
+                        : 'border-[#666] text-[#777] hover:border-[#64ffda]/50 hover:text-white'"
                     @click="selectedTag = null"
                 >
                     All
@@ -90,7 +90,7 @@ onUnmounted(() => {
                     class="font-mono text-sm px-4 py-2 rounded-full border transition-all duration-200"
                     :class="selectedTag === tag
                         ? 'border-[#64ffda] text-[#64ffda] bg-[#64ffda]/10'
-                        : 'border-[#1f1f1f] text-[#666] hover:border-[#64ffda]/50 hover:text-white'"
+                        : 'border-[#666] text-[#777] hover:border-[#64ffda]/50 hover:text-white'"
                     @click="selectedTag = tag"
                 >
                     {{ tag }}
@@ -109,7 +109,7 @@ onUnmounted(() => {
                     <button
                         v-for="(work, i) in filtered"
                         :key="work.id"
-                        class="group text-left reveal bg-[#111] border border-[#1f1f1f] rounded-xl overflow-hidden hover:border-[#64ffda]/30 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)] cursor-pointer"
+                        class="group text-left bg-[#111] border border-[#1f1f1f] rounded-xl overflow-hidden hover:border-[#64ffda]/30 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)] cursor-pointer"
                         :style="`transition-delay: ${(i % 6) * 0.08}s`"
                         @click="openWork(work)"
                     >
@@ -262,5 +262,20 @@ onUnmounted(() => {
 .grid-leave-to {
     opacity: 0;
     transform: scale(0.9);
+}
+
+@media (max-width: 639px) {
+    .tag-filter {
+        display: grid;
+        grid-template-rows: repeat(2, auto);
+        grid-auto-flow: column;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .tag-filter::-webkit-scrollbar {
+        display: none;
+    }
 }
 </style>

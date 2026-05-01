@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" style="background-color:#0a0a0a;">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="x-apple-disable-message-reformatting">
+    <meta name="color-scheme" content="dark">
+    <meta name="supported-color-schemes" content="dark">
     <title>New message from {{ $senderName }}</title>
     <!--[if mso]>
     <noscript><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
     <![endif]-->
     <style>
+        :root { color-scheme: dark; }
         * { -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
         body { margin: 0 !important; padding: 0 !important; background-color: #0a0a0a; }
         table { border-spacing: 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
@@ -28,7 +31,7 @@
     <div style="display:none;max-height:0;overflow:hidden;font-size:1px;color:#0a0a0a;">New contact from {{ $senderName }} ({{ $senderEmail }}) — {{ \Illuminate\Support\Str::limit($senderMessage, 90) }}</div>
     <div style="display:none;max-height:0;overflow:hidden;">&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;</div>
 
-    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#0a0a0a;">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" bgcolor="#0a0a0a" style="background-color:#0a0a0a;">
         <tr>
             <td align="center" style="padding:40px 20px;">
 
@@ -60,7 +63,7 @@
 
                     {{-- Card --}}
                     <tr>
-                        <td class="pad" style="background-color:#111111;border:1px solid #1f1f1f;padding:40px;">
+                        <td class="pad" bgcolor="#111111" style="background-color:#111111;border:1px solid #1f1f1f;padding:40px;">
                             <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
 
                                 {{-- Label --}}
@@ -100,7 +103,7 @@
                                 <tr><td style="padding-bottom:36px;">
                                     <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                         <tr>
-                                            <td style="background-color:#0d0d0d;border:1px solid #1f1f1f;padding:20px 24px;">
+                                            <td bgcolor="#0d0d0d" style="background-color:#0d0d0d;border:1px solid #1f1f1f;padding:20px 24px;">
                                                 <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.8;color:#cccccc;white-space:pre-wrap;">{{ $senderMessage }}</p>
                                             </td>
                                         </tr>
@@ -112,7 +115,7 @@
                                     <td style="border-top:1px solid #1f1f1f;padding-top:28px;">
                                         <table cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
-                                                <td style="background-color:#64ffda;">
+                                                <td bgcolor="#64ffda" style="background-color:#64ffda;">
                                                     <a href="mailto:{{ $senderEmail }}?subject=Re%3A Your message" style="display:inline-block;padding:13px 28px;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:700;color:#080808;text-decoration:none;letter-spacing:0.5px;">Reply to {{ $senderName }}</a>
                                                 </td>
                                             </tr>

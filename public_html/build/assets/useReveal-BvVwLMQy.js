@@ -1,0 +1,1 @@
+import{b as e,y as t}from"./app-BMFOHTiI.js";function n(n=`.reveal`){let r=null;t(()=>{r=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&(e.target.classList.add(`is-visible`),r?.unobserve(e.target))})},{threshold:.12,rootMargin:`0px 0px -60px 0px`}),document.querySelectorAll(n).forEach(e=>{r?.observe(e)})}),e(()=>r?.disconnect())}export{n as t};

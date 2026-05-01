@@ -16,7 +16,7 @@
 /node_modules
 /public_html/hot
 /public_html/storage
-/public_html/assets
+/public_html/assets/works
 /storage/*.key
 /storage/pail
 /storage/app/public/works

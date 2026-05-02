@@ -204,7 +204,7 @@ onUnmounted(() => {
                             <div class="aspect-video bg-[#1a1a1a] relative overflow-hidden sm:rounded-t-2xl">
                                 <img
                                     v-if="activeWork.image"
-                                    :src="`/storage/${activeWork.image}`"
+                                    :src="`/assets/${activeWork.image}`"
                                     :alt="activeWork.title"
                                     class="w-full h-full object-cover"
                                 />

@@ -118,10 +118,8 @@ onUnmounted(() => clearTimeout(typeTimeout));
                     Available for new opportunities
                 </div>
 
-                <!-- Name -->
-                <h1 class="font-display font-bold leading-none tracking-tight mb-6" style="font-size: clamp(3.5rem, 12vw, 9rem);">
-                    {{ settings.hero_headline }}
-                </h1>
+                <!-- Logo -->
+                <img src="/images/masias-logo-clean.svg" alt="Masias" width="450" height="130" class="mx-auto mb-6 block" style="filter: brightness(0) invert(1);" />
 
                 <!-- Typewriter tagline -->
                 <p class="font-mono text-[#64ffda] text-lg md:text-2xl mb-6 h-8">

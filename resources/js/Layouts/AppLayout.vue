@@ -24,8 +24,8 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
             :class="scrolled ? 'bg-[#080808]/95 backdrop-blur-sm border-b border-[#1f1f1f]' : 'bg-transparent'"
         >
             <nav class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
-                <Link href="/" class="font-display font-bold text-xl tracking-tight group flex items-center gap-2">
-                    <span class="text-white">MASIAS</span>
+                <Link href="/" class="group flex items-center gap-2">
+                    <img src="/images/masias-logo-clean.svg" alt="Masias" class="h-5 w-auto" style="filter: brightness(0) invert(1);" />
                     <span class="w-1.5 h-1.5 rounded-full bg-[#64ffda] group-hover:scale-150 transition-transform duration-300" />
                 </Link>
 

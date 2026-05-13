@@ -37,7 +37,7 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Teal,
             ])
             ->brandName('MASIAS CMS')
-            ->brandLogo(asset('images/masias-logo.svg'))
+            ->brandLogo(asset('images/masias-logo-clean.svg'))
             ->brandLogoHeight('3rem')
             ->favicon(asset('favicon.ico'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')

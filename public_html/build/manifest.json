@@ -1,77 +1,77 @@
 {
-  "_AppLayout-Do4jdSXc.js": {
-    "file": "assets/AppLayout-Do4jdSXc.js",
+  "_AppLayout-CIvkoa9f.js": {
+    "file": "assets/AppLayout-CIvkoa9f.js",
     "name": "AppLayout",
     "imports": [
       "resources/js/app.ts"
     ]
   },
-  "_useReveal-Bty4HrxG.js": {
-    "file": "assets/useReveal-Bty4HrxG.js",
+  "_useReveal-B4FuGftp.js": {
+    "file": "assets/useReveal-B4FuGftp.js",
     "name": "useReveal",
     "imports": [
       "resources/js/app.ts"
     ]
   },
   "resources/js/Pages/Contact.vue": {
-    "file": "assets/Contact-DKQbo3Qx.js",
+    "file": "assets/Contact-Bmn_fQxw.js",
     "name": "Contact",
     "src": "resources/js/Pages/Contact.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.ts",
-      "_AppLayout-Do4jdSXc.js",
-      "_useReveal-Bty4HrxG.js"
+      "_AppLayout-CIvkoa9f.js",
+      "_useReveal-B4FuGftp.js"
     ]
   },
   "resources/js/Pages/ErrorPage.vue": {
-    "file": "assets/ErrorPage-BVccDgag.js",
+    "file": "assets/ErrorPage-BYfaNIXU.js",
     "name": "ErrorPage",
     "src": "resources/js/Pages/ErrorPage.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.ts",
-      "_AppLayout-Do4jdSXc.js"
+      "_AppLayout-CIvkoa9f.js"
     ]
   },
   "resources/js/Pages/Home.vue": {
-    "file": "assets/Home-DLSxTT5G.js",
+    "file": "assets/Home-bTfRDpqp.js",
     "name": "Home",
     "src": "resources/js/Pages/Home.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.ts",
-      "_AppLayout-Do4jdSXc.js",
-      "_useReveal-Bty4HrxG.js"
+      "_AppLayout-CIvkoa9f.js",
+      "_useReveal-B4FuGftp.js"
     ]
   },
   "resources/js/Pages/Privacy.vue": {
-    "file": "assets/Privacy-nbrwQ0h6.js",
+    "file": "assets/Privacy-B8ctZWf6.js",
     "name": "Privacy",
     "src": "resources/js/Pages/Privacy.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.ts",
-      "_AppLayout-Do4jdSXc.js",
-      "_useReveal-Bty4HrxG.js"
+      "_AppLayout-CIvkoa9f.js",
+      "_useReveal-B4FuGftp.js"
     ]
   },
   "resources/js/Pages/Works.vue": {
-    "file": "assets/Works-CY-cOVvT.js",
+    "file": "assets/Works-Dx2aDyLw.js",
     "name": "Works",
     "src": "resources/js/Pages/Works.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.ts",
-      "_AppLayout-Do4jdSXc.js",
-      "_useReveal-Bty4HrxG.js"
+      "_AppLayout-CIvkoa9f.js",
+      "_useReveal-B4FuGftp.js"
     ],
     "css": [
       "assets/Works-pHQ-ENM5.css"
     ]
   },
   "resources/js/app.ts": {
-    "file": "assets/app-BAo4jgGL.js",
+    "file": "assets/app-B5JJD8Oh.js",
     "name": "app",
     "src": "resources/js/app.ts",
     "isEntry": true,

@@ -26,6 +26,17 @@ class SnapshotWriter
      */
     private const GEO_LIMIT = 50;
 
+    /**
+     * Months already written during this run.
+     *
+     * A long backfill is split into chunks, and each chunk covers the whole of
+     * any month it touches. Without this, a small chunk size would re-request
+     * the same month's geography several times and burn quota for nothing.
+     *
+     * @var array<string, true>
+     */
+    private array $syncedMonths = [];
+
     public function __construct(private readonly AnalyticsProvider $analytics) {}
 
     public function sync(Period $period): SnapshotResult
@@ -44,7 +55,7 @@ class SnapshotWriter
 
     private function syncBuckets(Period $period, Granularity $granularity): int
     {
-        $points = $this->analytics->trend($this->wholeBuckets($period, $granularity), $granularity);
+        $points = $this->analytics->trend($period->alignedTo($granularity), $granularity);
 
         $rows = array_map(
             fn (TrendPoint $point): array => [
@@ -86,6 +97,12 @@ class SnapshotWriter
     private function syncGeo(Period $period, SnapshotResult $result): SnapshotResult
     {
         foreach ($this->monthsIn($period) as $month) {
+            if (isset($this->syncedMonths[$month->startDate()])) {
+                continue;
+            }
+
+            $this->syncedMonths[$month->startDate()] = true;
+
             $rows = [
                 ...$this->geoRows($this->analytics->topCountries($month, self::GEO_LIMIT), $month, 'country'),
                 ...$this->geoRows($this->analytics->topCities($month, self::GEO_LIMIT), $month, 'city'),
@@ -122,11 +139,13 @@ class SnapshotWriter
                 'granularity' => Granularity::Monthly->value,
                 'bucket_start' => $month->startDate(),
                 'level' => $level,
-                // GA4 reports unresolved geography as "(not set)" rather than
-                // an empty value. Normalising it here keeps one representation
-                // of "unknown" in the archive, and keeps the code column to
-                // actual ISO codes.
-                'country_code' => $row->isoCode() ?? '',
+                // GA4 reports unresolved geography as "(not set)", and as
+                // "(other)" once a report hits its cardinality limit. These
+                // are different groups, so the raw value is kept when it is
+                // not an ISO code: collapsing both to an empty string would
+                // give them the same natural key, and the second would
+                // overwrite the first in the archive permanently.
+                'country_code' => $row->isoCode() ?? $row->countryCode,
                 'country' => $row->country,
                 // Never null: the unique key must be able to match on it.
                 'city' => $row->hasKnownCity() ? $row->city : '',
@@ -138,24 +157,6 @@ class SnapshotWriter
         }
 
         return $rows;
-    }
-
-    /**
-     * Grows a period outwards until it covers whole buckets.
-     *
-     * A bucket asked about over part of its span comes back holding only that
-     * part, but is still labelled with the whole bucket. Writing that would
-     * overwrite a complete figure with a fragment, which is exactly what
-     * happens at the seam between two chunks of a long backfill. Overlapping
-     * neighbouring chunks is harmless by comparison, because every bucket
-     * written is complete and the upsert is idempotent.
-     */
-    private function wholeBuckets(Period $period, Granularity $granularity): Period
-    {
-        $start = $granularity->startOf($period->start);
-        $end = $granularity->next($granularity->startOf($period->end))->subDay();
-
-        return Period::make($start, $end);
     }
 
     /**

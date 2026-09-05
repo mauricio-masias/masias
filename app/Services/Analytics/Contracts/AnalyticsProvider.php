@@ -2,11 +2,11 @@
 
 namespace App\Services\Analytics\Contracts;
 
-use App\Services\Analytics\Data\TrendPoint;
 use App\Services\Analytics\Data\GeoRow;
 use App\Services\Analytics\Data\Granularity;
 use App\Services\Analytics\Data\Period;
 use App\Services\Analytics\Data\PeriodSummary;
+use App\Services\Analytics\Data\TrendPoint;
 use App\Services\Analytics\Exceptions\AnalyticsUnavailable;
 
 /**

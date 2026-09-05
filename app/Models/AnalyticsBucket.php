@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Services\Analytics\Data\Granularity;
+use App\Services\Analytics\Snapshot\SnapshotWriter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * One archived Google Analytics bucket.
  *
- * @see \App\Services\Analytics\Snapshot\SnapshotWriter
+ * @see SnapshotWriter
  */
 class AnalyticsBucket extends Model
 {

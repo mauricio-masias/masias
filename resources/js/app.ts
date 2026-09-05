@@ -2,6 +2,7 @@ import { createSSRApp, h, DefineComponent } from 'vue';
 import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import '../css/app.css';
+import { readConsent } from '@/lib/consent';
 
 createInertiaApp({
     title: (title) => title ? `${title} — Masias` : 'Masias',
@@ -28,6 +29,14 @@ let initialNavigation = true;
 router.on('navigate', () => {
     if (initialNavigation) {
         initialNavigation = false;
+        return;
+    }
+
+    // Pushes made before consent stay queued in the dataLayer, and Tag
+    // Manager replays the whole queue from the start once it loads. Without
+    // this check, accepting would report every page visited while the banner
+    // was still unanswered.
+    if (readConsent() !== 'accepted') {
         return;
     }
 

@@ -3,13 +3,12 @@
 namespace App\Services\Analytics;
 
 use App\Services\Analytics\Contracts\AnalyticsProvider;
-use App\Services\Analytics\Data\TrendPoint;
 use App\Services\Analytics\Data\GeoRow;
 use App\Services\Analytics\Data\Granularity;
 use App\Services\Analytics\Data\Period;
 use App\Services\Analytics\Data\PeriodSummary;
+use App\Services\Analytics\Data\TrendPoint;
 use App\Services\Analytics\Exceptions\AnalyticsUnavailable;
-use Carbon\CarbonImmutable;
 use Google\Analytics\Data\V1beta\Client\BetaAnalyticsDataClient;
 use Google\Analytics\Data\V1beta\DateRange;
 use Google\Analytics\Data\V1beta\Dimension;

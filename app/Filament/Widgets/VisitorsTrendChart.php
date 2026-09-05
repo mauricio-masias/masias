@@ -56,7 +56,10 @@ class VisitorsTrendChart extends ChartWidget
         $granularity = Granularity::forLength($days);
 
         try {
-            $points = app(AnalyticsProvider::class)->trend(Period::lastDays($days), $granularity);
+            $points = app(AnalyticsProvider::class)->trend(
+                Period::lastDays($days)->alignedTo($granularity),
+                $granularity,
+            );
         } catch (AnalyticsUnavailable $e) {
             report($e);
 

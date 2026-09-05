@@ -8,6 +8,7 @@ use App\Filament\Widgets\VisitorsTrendChart;
 use App\Models\User;
 use App\Services\Analytics\Contracts\AnalyticsProvider;
 use App\Services\Analytics\FakeAnalyticsProvider;
+use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -53,6 +54,24 @@ class AnalyticsChartsTest extends TestCase
         $this->assertGreaterThan(50, count($data['labels']));
         $this->assertLessThan(60, count($data['labels']));
         $this->assertStringStartsWith('w/c ', $data['labels'][0]);
+    }
+
+    public function test_weekly_chart_does_not_plot_a_partial_leading_week(): void
+    {
+        $component = Livewire::test(VisitorsTrendChart::class)->set('filter', '365');
+        $data = $this->chartData($component->instance());
+
+        $visitors = $data['datasets'][0]['data'];
+        $rest = array_slice($visitors, 1, 8);
+
+        // The requested year starts mid-week. Asking GA4 for that raw range
+        // returns only the days inside it, plotted under the whole week's
+        // label, which draws a dip that never happened.
+        $this->assertGreaterThan(
+            max($rest) / 2,
+            $visitors[0],
+            'leading week looks truncated rather than whole',
+        );
     }
 
     public function test_trend_chart_stays_daily_at_ninety_days(): void
@@ -126,7 +145,7 @@ class AnalyticsChartsTest extends TestCase
 
     public function test_all_widgets_are_registered_on_the_dashboard(): void
     {
-        $widgets = \Filament\Facades\Filament::getPanel('admin')->getWidgets();
+        $widgets = Filament::getPanel('admin')->getWidgets();
 
         $this->assertContains(VisitorsTrendChart::class, $widgets);
         $this->assertContains(TopCountriesChart::class, $widgets);

@@ -4,11 +4,11 @@ namespace Tests\Feature;
 
 use App\Services\Analytics\CachedAnalyticsProvider;
 use App\Services\Analytics\Contracts\AnalyticsProvider;
-use App\Services\Analytics\Data\TrendPoint;
 use App\Services\Analytics\Data\GeoRow;
 use App\Services\Analytics\Data\Granularity;
 use App\Services\Analytics\Data\Period;
 use App\Services\Analytics\Data\PeriodSummary;
+use App\Services\Analytics\Data\TrendPoint;
 use App\Services\Analytics\Exceptions\AnalyticsUnavailable;
 use App\Services\Analytics\FakeAnalyticsProvider;
 use Illuminate\Cache\ArrayStore;

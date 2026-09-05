@@ -73,5 +73,4 @@ class TopCitiesWidget extends TableWidget
 
         return $records;
     }
-
 }

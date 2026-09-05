@@ -3,9 +3,9 @@
 namespace App\Filament\Widgets;
 
 use App\Services\Analytics\Contracts\AnalyticsProvider;
-use App\Services\Analytics\Data\TrendPoint;
 use App\Services\Analytics\Data\Period;
 use App\Services\Analytics\Data\PeriodSummary;
+use App\Services\Analytics\Data\TrendPoint;
 use App\Services\Analytics\Exceptions\AnalyticsUnavailable;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;

@@ -50,11 +50,6 @@ return [
     'timezone' => env('ANALYTICS_TIMEZONE', 'Europe/London'),
 
     /*
-    | 1 = Monday. UK convention; GA4's own UI defaults to Sunday.
-    */
-    'week_starts_on' => (int) env('ANALYTICS_WEEK_STARTS_ON', 1),
-
-    /*
     | Lower bound for "all time" queries. GA4 rejects dates before 2015-08-14.
     */
     'earliest_date' => env('ANALYTICS_EARLIEST_DATE', '2020-01-01'),

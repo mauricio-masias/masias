@@ -14,6 +14,7 @@ class AnalyticsGeoBucket extends Model
     protected $fillable = [
         'granularity',
         'bucket_start',
+        'level',
         'country_code',
         'country',
         'city',

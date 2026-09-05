@@ -28,7 +28,9 @@ function consentCalls(): unknown[][] {
 beforeEach(() => {
     clearAllCookies();
     localStorage.clear();
-    document.getElementById('gtm-script')?.remove();
+    document
+        .querySelectorAll('script[src*="googletagmanager.com/gtm.js"], script#gtm-script')
+        .forEach((script) => script.remove());
 
     window.dataLayer = [];
     window.gtag = function (...args: unknown[]) {
@@ -142,6 +144,35 @@ describe('loadTagManager', () => {
         loadTagManager();
 
         expect(document.getElementById('gtm-script')).toBeNull();
+    });
+
+    it('does not re-initialise a container the server already rendered', () => {
+        // The server-side snippet is what a returning visitor actually gets.
+        // Missing it pushes a second gtm.js event, which re-fires every tag
+        // bound to initialisation and counts the page view twice.
+        const serverRendered = document.createElement('script');
+        serverRendered.id = 'gtm-script';
+        serverRendered.async = true;
+        serverRendered.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TESTONLY';
+        document.head.appendChild(serverRendered);
+        window.dataLayer = [{ 'gtm.start': Date.now(), event: 'gtm.js' }];
+
+        loadTagManager();
+
+        expect(document.querySelectorAll('script[src*="googletagmanager.com/gtm.js"]')).toHaveLength(1);
+        expect(window.dataLayer?.filter((e) => (e as { event?: string }).event === 'gtm.js')).toHaveLength(1);
+    });
+
+    it('recognises a container script that carries no id', () => {
+        const untagged = document.createElement('script');
+        untagged.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TESTONLY';
+        document.head.appendChild(untagged);
+
+        loadTagManager();
+
+        expect(document.querySelectorAll('script[src*="googletagmanager.com/gtm.js"]')).toHaveLength(1);
+
+        untagged.remove();
     });
 
     it('never injects twice', () => {

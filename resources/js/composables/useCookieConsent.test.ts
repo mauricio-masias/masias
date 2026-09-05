@@ -34,7 +34,9 @@ function clearAllCookies(): void {
 beforeEach(() => {
     clearAllCookies();
     localStorage.clear();
-    document.getElementById('gtm-script')?.remove();
+    document
+        .querySelectorAll('script[src*="googletagmanager.com/gtm.js"], script#gtm-script')
+        .forEach((script) => script.remove());
 
     window.dataLayer = [];
     window.gtag = function () {
@@ -66,6 +68,25 @@ describe('initialise', () => {
 
         expect(consent.isVisible.value).toBe(false);
         expect(consent.choice.value).toBe('accepted');
+    });
+
+    it('does not re-initialise Tag Manager for a returning visitor', async () => {
+        // Blade already emitted the snippet for this visitor. Calling
+        // loadTagManager again would double-count their page view.
+        document.cookie = 'cookie_consent=accepted; Path=/';
+
+        const serverRendered = document.createElement('script');
+        serverRendered.id = 'gtm-script';
+        serverRendered.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TESTONLY';
+        document.head.appendChild(serverRendered);
+        window.dataLayer = [{ 'gtm.start': Date.now(), event: 'gtm.js' }];
+
+        const { useCookieConsent } = await freshModule();
+
+        useCookieConsent().initialise();
+
+        expect(document.querySelectorAll('script[src*="googletagmanager.com/gtm.js"]')).toHaveLength(1);
+        expect(window.dataLayer?.filter((e) => (e as { event?: string }).event === 'gtm.js')).toHaveLength(1);
     });
 
     it('stays out of the way for a visitor who declined, and loads nothing', async () => {

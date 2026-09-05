@@ -82,6 +82,21 @@ function setGoogleConsent(state: ConsentState): void {
 }
 
 /**
+ * Whether Tag Manager is already on the page.
+ *
+ * Checked by src as well as by id, because a snippet rendered by the server
+ * must be recognised even if it were to arrive without the id. Missing it
+ * would push a second `gtm.js` event, which re-fires every tag bound to
+ * initialisation and counts the page view twice.
+ */
+function isTagManagerPresent(): boolean {
+    return (
+        document.getElementById('gtm-script') !== null ||
+        document.querySelector('script[src*="googletagmanager.com/gtm.js"]') !== null
+    );
+}
+
+/**
  * Injects Tag Manager. Safe to call more than once; the second call is a
  * no-op, which matters because the server already emits the snippet for
  * visitors who consented on an earlier visit.
@@ -89,7 +104,7 @@ function setGoogleConsent(state: ConsentState): void {
 export function loadTagManager(): void {
     const containerId = window.__gtmContainerId;
 
-    if (!containerId || document.getElementById('gtm-script')) {
+    if (!containerId || isTagManagerPresent()) {
         return;
     }
 

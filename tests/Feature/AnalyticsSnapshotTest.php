@@ -200,6 +200,47 @@ class AnalyticsSnapshotTest extends TestCase
         $this->assertSame(1, $unknownCity);
     }
 
+    public function test_distinct_unresolved_country_groups_are_kept_apart(): void
+    {
+        // GA4 emits "(not set)" for withheld geography and "(other)" once a
+        // report hits its cardinality limit. They are different groups, and
+        // collapsing both to an empty code would make the second overwrite
+        // the first permanently.
+        $this->writer()->sync(Period::lastDays(7));
+
+        AnalyticsGeoBucket::query()->delete();
+
+        $month = Period::thisMonth()->startDate();
+
+        AnalyticsGeoBucket::upsert([
+            ['granularity' => 'monthly', 'bucket_start' => $month, 'level' => 'country', 'country_code' => '(not set)', 'country' => '(not set)', 'city' => '', 'visitors' => 7, 'sessions' => 8],
+            ['granularity' => 'monthly', 'bucket_start' => $month, 'level' => 'country', 'country_code' => '(other)', 'country' => '(other)', 'city' => '', 'visitors' => 3, 'sessions' => 4],
+        ], ['granularity', 'bucket_start', 'level', 'country_code', 'city'], ['country', 'visitors', 'sessions']);
+
+        $this->assertSame(2, AnalyticsGeoBucket::where('level', 'country')->count());
+        $this->assertSame(10, (int) AnalyticsGeoBucket::sum('visitors'));
+    }
+
+    public function test_geo_months_are_fetched_once_per_run(): void
+    {
+        $counter = new CountingAnalyticsProvider($this->app->make(AnalyticsProvider::class));
+        $writer = new SnapshotWriter($counter);
+
+        // Two chunks landing inside the same month must not re-request that
+        // month's geography and burn quota twice.
+        $writer->sync(Period::make(
+            CarbonImmutable::parse('2026-07-05', 'Europe/London'),
+            CarbonImmutable::parse('2026-07-12', 'Europe/London'),
+        ));
+        $writer->sync(Period::make(
+            CarbonImmutable::parse('2026-07-13', 'Europe/London'),
+            CarbonImmutable::parse('2026-07-20', 'Europe/London'),
+        ));
+
+        $this->assertSame(1, $counter->countryCalls);
+        $this->assertSame(1, $counter->cityCalls);
+    }
+
     public function test_repository_reads_back_a_trend(): void
     {
         $this->writer()->sync(Period::lastDays(10));

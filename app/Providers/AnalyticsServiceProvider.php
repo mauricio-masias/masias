@@ -10,6 +10,7 @@ use App\Services\Analytics\GoogleAnalyticsProvider;
 use Google\Analytics\Data\V1beta\Client\BetaAnalyticsDataClient;
 use Illuminate\Contracts\Cache\Factory as CacheFactory;
 use Illuminate\Support\ServiceProvider;
+use Throwable;
 
 class AnalyticsServiceProvider extends ServiceProvider
 {
@@ -32,11 +33,26 @@ class AnalyticsServiceProvider extends ServiceProvider
             return new FakeAnalyticsProvider;
         }
 
+        $propertyId = $this->propertyId();
+        $credentials = $this->credentialsPath();
+
+        try {
+            $client = new BetaAnalyticsDataClient(['credentials' => $credentials]);
+        } catch (AnalyticsUnavailable $e) {
+            throw $e;
+        } catch (Throwable $e) {
+            // A malformed or wrong-type key file fails inside the Google
+            // client with its own exception types. Left unconverted, those
+            // escape the widgets' catch and take down the whole admin panel,
+            // whose landing page is the dashboard.
+            throw AnalyticsUnavailable::notConfigured(
+                "the service account key at {$credentials} could not be loaded: {$e->getMessage()}"
+            );
+        }
+
         return new GoogleAnalyticsProvider(
-            client: new BetaAnalyticsDataClient([
-                'credentials' => $this->credentialsPath(),
-            ]),
-            propertyId: $this->propertyId(),
+            client: $client,
+            propertyId: $propertyId,
         );
     }
 

@@ -3,11 +3,11 @@
 namespace App\Services\Analytics;
 
 use App\Services\Analytics\Contracts\AnalyticsProvider;
-use App\Services\Analytics\Data\TrendPoint;
 use App\Services\Analytics\Data\GeoRow;
 use App\Services\Analytics\Data\Granularity;
 use App\Services\Analytics\Data\Period;
 use App\Services\Analytics\Data\PeriodSummary;
+use App\Services\Analytics\Data\TrendPoint;
 use Closure;
 use Illuminate\Contracts\Cache\Repository;
 
@@ -96,6 +96,6 @@ class CachedAnalyticsProvider implements AnalyticsProvider
 
     private function ttlFor(Period $period): int
     {
-        return $period->includesToday() ? $this->liveTtl : $this->historicalTtl;
+        return $period->isStillSettling() ? $this->liveTtl : $this->historicalTtl;
     }
 }

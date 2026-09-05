@@ -66,6 +66,31 @@ class AnalyticsWidgetTest extends TestCase
         $this->get('/admin')->assertOk();
     }
 
+    public function test_a_broken_credentials_file_degrades_instead_of_breaking_the_panel(): void
+    {
+        // The Google client throws its own exception types for a malformed or
+        // wrong-type key. Unconverted, they escape the widgets' catch and the
+        // dashboard is the panel's landing page, so the operator is locked out
+        // of everything else too.
+        $path = storage_path('framework/testing/broken-ga-key.json');
+        file_put_contents($path, '{"type":"authorized_user"}');
+
+        $this->app->forgetInstance(AnalyticsProvider::class);
+        config()->set('analytics.driver', 'google');
+        config()->set('analytics.property_id', '123456789');
+        config()->set('analytics.credentials_path', $path);
+
+        try {
+            $this->get('/admin')->assertOk();
+
+            Livewire::test(AnalyticsOverviewWidget::class)
+                ->assertOk()
+                ->assertSee('Analytics unavailable');
+        } finally {
+            @unlink($path);
+        }
+    }
+
     public function test_default_filament_widgets_are_not_registered(): void
     {
         // Asserted against panel registration rather than rendered markup,

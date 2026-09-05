@@ -13,6 +13,11 @@ use Carbon\CarbonImmutable;
  */
 final readonly class Period
 {
+    /**
+     * How long GA4 may keep revising a day after it closes.
+     */
+    private const SETTLING_DAYS = 2;
+
     public function __construct(
         public CarbonImmutable $start,
         public CarbonImmutable $end,
@@ -41,7 +46,7 @@ final readonly class Period
     {
         $now = self::now();
 
-        return self::make($now->startOfWeek(config('analytics.week_starts_on')), $now);
+        return self::make(Granularity::Weekly->startOf($now), $now);
     }
 
     public static function thisMonth(): self
@@ -87,6 +92,26 @@ final readonly class Period
         );
     }
 
+    /**
+     * Grows the period outwards until it covers whole buckets.
+     *
+     * A bucket asked about over part of its span comes back holding only that
+     * part, but still labelled with the whole bucket. Plotted, that draws a
+     * fabricated dip at the edge of a chart; stored, it overwrites a complete
+     * figure with a fragment. The end is never pushed past today, because the
+     * bucket in progress cannot be complete whatever is asked for.
+     */
+    public function alignedTo(Granularity $granularity): self
+    {
+        $end = $granularity->next($granularity->startOf($this->end))->subDay();
+        $today = CarbonImmutable::now(self::timezone());
+
+        return self::make(
+            $granularity->startOf($this->start),
+            $end->greaterThan($today) ? $today : $end,
+        );
+    }
+
     public function lengthInDays(): int
     {
         return (int) $this->start->startOfDay()->diffInDays($this->end->startOfDay()) + 1;
@@ -99,6 +124,20 @@ final readonly class Period
     public function includesToday(): bool
     {
         return $this->end->startOfDay()->greaterThanOrEqualTo(self::now()->startOfDay());
+    }
+
+    /**
+     * Whether Google may still revise these figures.
+     *
+     * GA4 keeps adjusting the most recent days for a while after they close,
+     * so a period ending yesterday is not yet final. Treating it as history
+     * would pin half-processed numbers in the cache for hours.
+     */
+    public function isStillSettling(): bool
+    {
+        return $this->end->startOfDay()->greaterThanOrEqualTo(
+            self::now()->subDays(self::SETTLING_DAYS)->startOfDay(),
+        );
     }
 
     public function startDate(): string

@@ -3,12 +3,13 @@
 namespace App\Services\Analytics;
 
 use App\Services\Analytics\Contracts\AnalyticsProvider;
-use App\Services\Analytics\Data\TrendPoint;
 use App\Services\Analytics\Data\GeoRow;
 use App\Services\Analytics\Data\Granularity;
 use App\Services\Analytics\Data\Period;
 use App\Services\Analytics\Data\PeriodSummary;
+use App\Services\Analytics\Data\TrendPoint;
 use App\Services\Analytics\Exceptions\AnalyticsUnavailable;
+use Carbon\CarbonImmutable;
 
 /**
  * Deterministic stand-in for the Data API.
@@ -66,7 +67,9 @@ class FakeAnalyticsProvider implements AnalyticsProvider
         $cursor = $granularity->startOf($period->start);
 
         while ($cursor->lessThanOrEqualTo($period->end)) {
-            $visitors = (8 + ((int) $cursor->format('z') % 17)) * $scale;
+            $visitors = (int) round(
+                (8 + ((int) $cursor->format('z') % 17)) * $scale * $this->coverage($cursor, $granularity, $period),
+            );
 
             $points[] = new TrendPoint(
                 date: $cursor,
@@ -82,6 +85,27 @@ class FakeAnalyticsProvider implements AnalyticsProvider
         }
 
         return $points;
+    }
+
+    /**
+     * How much of a bucket the requested period actually covers.
+     *
+     * GA4 reports a bucket asked about over part of its span as holding only
+     * that part, still labelled with the whole bucket. Reproducing that is the
+     * point: without it, a test cannot tell a whole bucket from a fragment,
+     * and every assertion about whole-bucket handling passes regardless.
+     */
+    private function coverage(CarbonImmutable $bucketStart, Granularity $granularity, Period $period): float
+    {
+        $bucketEnd = $granularity->next($bucketStart)->subDay();
+
+        $from = $bucketStart->greaterThan($period->start) ? $bucketStart : $period->start;
+        $to = $bucketEnd->lessThan($period->end) ? $bucketEnd : $period->end;
+
+        $covered = $from->startOfDay()->diffInDays($to->startOfDay()) + 1;
+        $total = $bucketStart->startOfDay()->diffInDays($bucketEnd->startOfDay()) + 1;
+
+        return max(min($covered / $total, 1.0), 0.0);
     }
 
     public function topCountries(Period $period, int $limit = 10): array

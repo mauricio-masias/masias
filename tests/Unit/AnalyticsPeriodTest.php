@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Services\Analytics\Data\Granularity;
 use App\Services\Analytics\Data\Period;
 use Carbon\CarbonImmutable;
 use Tests\TestCase;
@@ -13,7 +14,6 @@ class AnalyticsPeriodTest extends TestCase
         parent::setUp();
 
         config()->set('analytics.timezone', 'Europe/London');
-        config()->set('analytics.week_starts_on', 1);
 
         // A Wednesday, so week and month boundaries are both partial.
         CarbonImmutable::setTestNow(CarbonImmutable::parse('2026-09-16 14:30:00', 'Europe/London'));
@@ -84,6 +84,39 @@ class AnalyticsPeriodTest extends TestCase
         $this->assertTrue(Period::thisMonth()->includesToday());
         $this->assertFalse(Period::yesterday()->includesToday());
         $this->assertFalse(Period::thisWeek()->previous()->includesToday());
+    }
+
+    public function test_recent_periods_are_treated_as_still_settling(): void
+    {
+        // GA4 keeps revising the last couple of days, so caching them as
+        // settled history pins half-processed numbers for hours.
+        $this->assertTrue(Period::today()->isStillSettling());
+        $this->assertTrue(Period::yesterday()->isStillSettling());
+        $this->assertTrue(Period::thisMonth()->isStillSettling());
+        $this->assertFalse(Period::lastDays(30)->previous()->isStillSettling());
+    }
+
+    public function test_aligning_grows_a_period_to_whole_buckets(): void
+    {
+        // 2026-09-16 is a Wednesday.
+        $aligned = Period::lastDays(30)->alignedTo(Granularity::Weekly);
+
+        $this->assertSame('Monday', $aligned->start->format('l'));
+        $this->assertTrue($aligned->start->lessThanOrEqualTo(Period::lastDays(30)->start));
+
+        // Never past today: the bucket in progress cannot be complete.
+        $this->assertSame('2026-09-16', $aligned->endDate());
+    }
+
+    public function test_aligning_monthly_covers_whole_months(): void
+    {
+        $aligned = Period::make(
+            CarbonImmutable::parse('2026-05-10', 'Europe/London'),
+            CarbonImmutable::parse('2026-07-20', 'Europe/London'),
+        )->alignedTo(Granularity::Monthly);
+
+        $this->assertSame('2026-05-01', $aligned->startDate());
+        $this->assertSame('2026-07-31', $aligned->endDate());
     }
 
     public function test_all_time_starts_at_the_configured_earliest_date(): void

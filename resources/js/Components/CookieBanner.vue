@@ -1,36 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import { useCookieConsent } from '@/composables/useCookieConsent';
 
-const visible = ref(false);
+const { isVisible, choice, initialise, accept, reject } = useCookieConsent();
 
-function pushConsent(accepted: boolean) {
-    (window as any).dataLayer = (window as any).dataLayer || [];
-    (window as any).dataLayer.push({
-        event: accepted ? 'cookie_consent_accepted' : 'cookie_consent_rejected',
-    });
-}
-
-onMounted(() => {
-    const stored = localStorage.getItem('cookie_consent');
-    if (stored === 'accepted') {
-        pushConsent(true);
-    } else if (!stored) {
-        visible.value = true;
-    }
-});
-
-function accept() {
-    localStorage.setItem('cookie_consent', 'accepted');
-    pushConsent(true);
-    visible.value = false;
-}
-
-function reject() {
-    localStorage.setItem('cookie_consent', 'rejected');
-    pushConsent(false);
-    visible.value = false;
-}
+onMounted(initialise);
 </script>
 
 <template>
@@ -43,7 +18,7 @@ function reject() {
         leave-to-class="opacity-0 translate-y-4"
     >
         <div
-            v-if="visible"
+            v-if="isVisible"
             class="fixed bottom-0 left-0 right-0 z-50 border-t border-[#1f1f1f] bg-[#0d0d0d]/95 backdrop-blur-sm"
         >
             <div class="max-w-6xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
@@ -54,14 +29,16 @@ function reject() {
                             Privacy &amp; Cookie Policy
                         </Link>
                     </p>
-                    
+                    <p v-if="choice" class="mt-2 text-xs font-mono text-[#555]">
+                        Current setting: {{ choice === 'accepted' ? 'Analytics accepted' : 'Analytics rejected' }}
+                    </p>
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
                     <button
                         class="font-mono text-xs text-[#444] hover:text-white border border-[#1f1f1f] hover:border-[#333] px-4 py-2 transition-colors duration-200 cursor-pointer"
                         @click="reject"
                     >
-                        Reject
+                        {{ choice === 'accepted' ? 'Withdraw' : 'Reject' }}
                     </button>
                     <button
                         class="font-mono text-xs text-[#080808] bg-[#64ffda] hover:bg-[#64ffdacc] px-4 py-2 transition-colors duration-200 cursor-pointer font-semibold"

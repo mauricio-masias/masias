@@ -1,0 +1,81 @@
+<?php
+
+namespace App\Providers;
+
+use App\Services\Analytics\CachedAnalyticsProvider;
+use App\Services\Analytics\Contracts\AnalyticsProvider;
+use App\Services\Analytics\Exceptions\AnalyticsUnavailable;
+use App\Services\Analytics\FakeAnalyticsProvider;
+use App\Services\Analytics\GoogleAnalyticsProvider;
+use Google\Analytics\Data\V1beta\Client\BetaAnalyticsDataClient;
+use Illuminate\Contracts\Cache\Factory as CacheFactory;
+use Illuminate\Support\ServiceProvider;
+
+class AnalyticsServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        $this->app->singleton(AnalyticsProvider::class, function (): AnalyticsProvider {
+            return new CachedAnalyticsProvider(
+                inner: $this->baseProvider(),
+                cache: $this->app->make(CacheFactory::class)->store(config('analytics.cache.store')),
+                prefix: config('analytics.cache.prefix', 'analytics'),
+                liveTtl: (int) config('analytics.cache.live_ttl', 900),
+                historicalTtl: (int) config('analytics.cache.historical_ttl', 43200),
+            );
+        });
+    }
+
+    private function baseProvider(): AnalyticsProvider
+    {
+        if (config('analytics.driver') === 'fake') {
+            return new FakeAnalyticsProvider;
+        }
+
+        return new GoogleAnalyticsProvider(
+            client: new BetaAnalyticsDataClient([
+                'credentials' => $this->credentialsPath(),
+            ]),
+            propertyId: $this->propertyId(),
+        );
+    }
+
+    /**
+     * The numeric GA4 property id. A measurement id ("G-XXXXXXX") is a common
+     * mix-up and produces an opaque permission error from the API, so it is
+     * rejected here with a message that says what to do about it.
+     */
+    private function propertyId(): string
+    {
+        $propertyId = (string) config('analytics.property_id');
+
+        if ($propertyId === '') {
+            throw AnalyticsUnavailable::notConfigured('GA4_PROPERTY_ID is not set.');
+        }
+
+        if (! ctype_digit($propertyId)) {
+            throw AnalyticsUnavailable::notConfigured(
+                "GA4_PROPERTY_ID must be the numeric property id from GA4 Admin -> Property Settings, got \"{$propertyId}\"."
+            );
+        }
+
+        return $propertyId;
+    }
+
+    private function credentialsPath(): string
+    {
+        $configured = (string) config('analytics.credentials_path');
+
+        if ($configured === '') {
+            throw AnalyticsUnavailable::notConfigured('GA4_CREDENTIALS_PATH is not set.');
+        }
+
+        $path = str_starts_with($configured, '/') ? $configured : base_path($configured);
+
+        if (! is_readable($path)) {
+            throw AnalyticsUnavailable::notConfigured("the service account key at {$path} is missing or unreadable.");
+        }
+
+        return $path;
+    }
+}

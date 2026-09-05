@@ -2,8 +2,13 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import CookieBanner from '@/Components/CookieBanner.vue';
+import { useCookieConsent } from '@/composables/useCookieConsent';
 
 const appEmail = (usePage().props as Record<string, unknown>).appEmail as string;
+
+// Reopening the banner is the route to withdrawing consent, which has to be
+// as easy to reach as giving it was.
+const { open: openCookieSettings } = useCookieConsent();
 
 const scrolled = ref(false);
 const menuOpen = ref(false);
@@ -124,6 +129,14 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
                     <span>{{ new Date().getFullYear() }} &bull; Mauricio Masias</span>
                     <span>&bull;</span>
                     <Link href="/privacy" class="hover:text-[#64ffda] transition-colors duration-200">Privacy Policy</Link>
+                    <span>&bull;</span>
+                    <button
+                        type="button"
+                        class="hover:text-[#64ffda] transition-colors duration-200 cursor-pointer"
+                        @click="openCookieSettings"
+                    >
+                        Cookie Settings
+                    </button>
                 </span>
                 <a
                     :href="`mailto:${appEmail}`"

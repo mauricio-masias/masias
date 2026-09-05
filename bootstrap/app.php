@@ -14,6 +14,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
         ]);
+
+        // The cookie consent choice is written by the browser, so it arrives
+        // unencrypted and would otherwise be discarded as tampered with. It
+        // holds no sensitive data, only "accepted" or "rejected".
+        $middleware->encryptCookies(except: [
+            'cookie_consent',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

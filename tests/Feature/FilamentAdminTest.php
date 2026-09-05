@@ -71,10 +71,13 @@ class FilamentAdminTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_admin_register_page_is_accessible(): void
+    public function test_admin_registration_is_disabled(): void
     {
+        // The panel has a single operator and no sign-up flow. Registration
+        // being reachable would let anyone create an admin account, so this
+        // guards the decision rather than merely recording it.
         $response = $this->get('/admin/register');
 
-        $response->assertStatus(200);
+        $response->assertStatus(404);
     }
 }

@@ -36,6 +36,15 @@ class AnalyticsServiceProvider extends ServiceProvider
         $propertyId = $this->propertyId();
         $credentials = $this->credentialsPath();
 
+        // Checked before the catch below, which cannot tell a missing class
+        // from a bad key and would otherwise blame the credentials for a
+        // dependency that was never installed.
+        if (! class_exists(BetaAnalyticsDataClient::class)) {
+            throw AnalyticsUnavailable::notConfigured(
+                'the google/analytics-data package is not installed. Run "composer install" in this environment.'
+            );
+        }
+
         try {
             $client = new BetaAnalyticsDataClient(['credentials' => $credentials]);
         } catch (AnalyticsUnavailable $e) {
@@ -44,9 +53,10 @@ class AnalyticsServiceProvider extends ServiceProvider
             // A malformed or wrong-type key file fails inside the Google
             // client with its own exception types. Left unconverted, those
             // escape the widgets' catch and take down the whole admin panel,
-            // whose landing page is the dashboard.
+            // whose landing page is the dashboard. The wording stays neutral
+            // about the cause, because this catch sees more than bad keys.
             throw AnalyticsUnavailable::notConfigured(
-                "the service account key at {$credentials} could not be loaded: {$e->getMessage()}"
+                "the Google Analytics client could not be created using the key at {$credentials}: {$e->getMessage()}"
             );
         }
 

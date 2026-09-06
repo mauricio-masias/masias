@@ -26,6 +26,7 @@ class TopCountriesChart extends ChartWidget
     protected function getFilters(): ?array
     {
         return [
+            '1' => 'Today',
             '7' => 'Last 7 days',
             '30' => 'Last 30 days',
             '90' => 'Last 90 days',

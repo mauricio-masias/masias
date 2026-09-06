@@ -7,6 +7,7 @@ use App\Filament\Widgets\TopCountriesChart;
 use App\Filament\Widgets\VisitorsTrendChart;
 use App\Models\User;
 use App\Services\Analytics\Contracts\AnalyticsProvider;
+use App\Services\Analytics\Data\Period;
 use App\Services\Analytics\FakeAnalyticsProvider;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
@@ -101,6 +102,25 @@ class AnalyticsChartsTest extends TestCase
         $this->assertSame('United Kingdom', $data['labels'][0]);
         $this->assertContains('Unknown', $data['labels']);
         $this->assertSame(412, $data['datasets'][0]['data'][0]);
+    }
+
+    public function test_countries_chart_supports_a_today_filter(): void
+    {
+        $component = Livewire::test(TopCountriesChart::class)->set('filter', '1');
+        $data = $this->chartData($component->instance());
+
+        $this->assertNotEmpty($data['labels']);
+        $this->assertSame('United Kingdom', $data['labels'][0]);
+    }
+
+    public function test_today_filter_asks_for_a_single_day(): void
+    {
+        // The filter value is a day count, so "Today" must resolve to a
+        // one-day period rather than silently widening the range.
+        $period = Period::lastDays(1);
+
+        $this->assertSame($period->startDate(), $period->endDate());
+        $this->assertSame(1, $period->lengthInDays());
     }
 
     public function test_countries_chart_renders_horizontally(): void

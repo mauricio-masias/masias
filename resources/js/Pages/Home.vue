@@ -64,7 +64,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
 // Typewriter for tagline
 const displayedTagline = ref('');
-const taglines = ['Full-Stack Developer', 'PHP & TypeScript', 'Vue · React · Next.js', 'Agile Practitioner'];
+const taglines = ['Full-Stack Developer', 'Claude Code and AI Orchestration', 'PHP & TypeScript', 'Vue · React · Next.js', 'Agile Practitioner'];
 let taglineIndex = 0;
 let charIndex = 0;
 let isDeleting = false;

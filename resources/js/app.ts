@@ -3,6 +3,9 @@ import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import '../css/app.css';
 import { readConsent } from '@/lib/consent';
+import { printSignature } from '@/lib/signature';
+
+printSignature();
 
 createInertiaApp({
     title: (title) => title ? `${title} — Masias` : 'Masias',
